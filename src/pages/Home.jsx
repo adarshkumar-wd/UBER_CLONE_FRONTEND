@@ -5,7 +5,7 @@ function Home() {
 
   return (
     <div>
-        <div className='bg-cover bg-[url(https://img.freepik.com/premium-photo/traffic-lights-street-illustration-images_796580-333.jpg?w=2000)] h-screen w-full flex justify-between flex-col bg-red-400'>
+        <div className='bg-cover bg-[url(https://img.freepik.com/premium-photo/traffic-lights-street-illustration-images_796580-333.jpg?w=2000)] h-screen w-full flex justify-between flex-col'>
             <img className='mt-5 w-20 ml-5' src="src/assets/uber_logo.png" alt="" />
             <div className='bg-white px-7 py-4'>
                 <h2 className='text-3xl font-bold'>Get Started With Uber</h2>

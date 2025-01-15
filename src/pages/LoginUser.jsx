@@ -25,7 +25,7 @@ function LoginUser() {
             <div className='h-full'>
                 <img className='w-20 mb-8' src="src/assets/uber_logo.png" alt="" />
 
-                <form onSubmit={submitHandler}>
+                <form onSubmit={(e) => submitHandler(e)}>
                     <h3 className='text-xl mb-2'>What's your Email</h3>
 
                     <input
