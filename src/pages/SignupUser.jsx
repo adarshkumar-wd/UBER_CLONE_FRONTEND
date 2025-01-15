@@ -1,6 +1,9 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useState , useEffect } from 'react';
+import React, { useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { UserDataContext } from '../context/userContext';
+
 
 function SignupUser() {
 
@@ -10,17 +13,34 @@ function SignupUser() {
   const [lastName, setLastName] = useState("");
   const [userData, setUserData] = useState({});
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserDataContext);
 
-    setUserData({
-      userName : {
-        firstName : firstName,
-        lastName : lastName
-      },
-      email : email,
-      password : password
-    })
+
+  const submitHandler = async (e) => {
+    try {
+      e.preventDefault();
+
+      const newUser = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password
+      }
+
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
+
+      if (response.status === 201) {
+
+        const data = response.data.data
+
+        setUser(data.userData)
+
+        navigate("/home")
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
 
     setEmail("");
     setPassword("");
@@ -33,7 +53,7 @@ function SignupUser() {
       <div className='h-full'>
         <img className='w-20 mb-8' src="src/assets/uber_logo.png" alt="" />
 
-        <form onSubmit={(e) => {submitHandler(e)}}>
+        <form onSubmit={(e) => { submitHandler(e) }}>
 
           <h3 className='text-base mb-2'>What's your Name</h3>
 
@@ -44,7 +64,7 @@ function SignupUser() {
               type='text'
               placeholder='First Name'
               value={firstName}
-              onChange={(e) => {setFirstName(e.target.value)}}
+              onChange={(e) => { setFirstName(e.target.value) }}
             />
 
             <input
@@ -52,7 +72,7 @@ function SignupUser() {
               type='text'
               placeholder='Last Name'
               value={lastName}
-              onChange={(e) => {setLastName(e.target.value)}}
+              onChange={(e) => { setLastName(e.target.value) }}
             />
           </div>
 
@@ -64,7 +84,7 @@ function SignupUser() {
             type='email'
             placeholder='user@example.com'
             value={email}
-            onChange={(e) => {setEmail(e.target.value)}}
+            onChange={(e) => { setEmail(e.target.value) }}
           />
 
           <h3 className='text-base mb-2'>Enter Password</h3>
@@ -75,7 +95,7 @@ function SignupUser() {
             type='password'
             placeholder='a1b2c3'
             value={password}
-            onChange={(e) => {setPassword(e.target.value)}}
+            onChange={(e) => { setPassword(e.target.value) }}
           />
 
           <button className='w-full bg-black text-white rounded-md px-6 py-2 mt-4 font-bold '>Sign Up</button>
