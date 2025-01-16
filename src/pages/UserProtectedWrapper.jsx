@@ -13,8 +13,6 @@ function UserProtectedWrapper({ children }) {
                 const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/validate-token`, {
                     withCredentials: true,
                 });
-
-                console.log("response : " , response.status);
                 
 
                 if (!response.status === 200) {

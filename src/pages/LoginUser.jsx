@@ -28,7 +28,6 @@ function LoginUser() {
 
                 const data = response.data.data;
                 setUser(data.userData)
-                localStorage.setItem("accessToken" , data.accessToken)
                 
                 navigate("/home")
             }
