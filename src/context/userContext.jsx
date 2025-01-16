@@ -4,7 +4,7 @@ export const UserDataContext = createContext()
 
 const UserContext = ({ children }) => {
 
-    const [user , setUser] = useState("hii")
+    const [user , setUser] = useState("")
 
     return (
         <div>

@@ -9,6 +9,7 @@ import SignupCaptain from './pages/SignupCaptain'
 import Home from './pages/Home'
 import UserProtectedWrapper from './pages/UserProtectedWrapper'
 import UserLogout from './pages/UserLogout'
+import CaptainHome from './pages/CaptainHome'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -32,6 +33,10 @@ function App() {
           <UserProtectedWrapper>
             <UserLogout />
           </UserProtectedWrapper>
+        } />
+
+        <Route path='/captain-home' element={
+            <CaptainHome />
         } />
 
       </Routes>
