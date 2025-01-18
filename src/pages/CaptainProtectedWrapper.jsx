@@ -10,13 +10,12 @@ function CaptainProtectedWrapper({children}) {
         const checkAuth = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/captains/validate-token` , {withCredentials:true});
-    
+
                 if (!response.status === 200) {
                     navigate("/captain-login");
                 }
 
             } catch (error) {
-                console.log(error.message || "unAuthorised Captain not allowed to this page");
                 navigate("/captain-login");
             }
         };

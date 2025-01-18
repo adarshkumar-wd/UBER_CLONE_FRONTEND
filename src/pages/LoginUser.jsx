@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { UserDataContext } from '../context/userContext';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 function LoginUser() {
 
@@ -11,37 +12,39 @@ function LoginUser() {
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
-    const {user , setUser} = useContext(UserDataContext);
+    const { user, setUser } = useContext(UserDataContext);
 
     const submitHandler = async (e) => {
         try {
             e.preventDefault();
-            
+
             const userData = {
-                email : email,
-                password : password
+                email: email,
+                password: password
             }
-    
-            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login` , userData ,  {withCredentials: true });
-    
-            if(response.status === 200){
+
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData, { withCredentials: true });
+
+            if (response.status === 200) {
 
                 const data = response.data.data;
                 setUser(data.userData)
-                
+
                 navigate("/home")
             }
-            
+
             setEmail("")
             setPassword("")
         } catch (error) {
-            console.log(error.message);
-            
+            const message = error?.response?.data?.message
+            toast.error(message)
+
         }
     }
 
     return (
         <div className='p-7 h-screen flex flex-col justify-around'>
+            <Toaster />
             <div className='h-full'>
                 <img className='w-20 mb-8' src="src/assets/uber_logo.png" alt="" />
 

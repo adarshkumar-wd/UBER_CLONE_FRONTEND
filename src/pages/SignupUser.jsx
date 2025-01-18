@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { UserDataContext } from '../context/userContext';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 function SignupUser() {
@@ -38,8 +39,20 @@ function SignupUser() {
 
         navigate("/home")
       }
+
+      setEmail("")
+      setFirstName("")
+      setLastName("")
+      setPassword("")
+
     } catch (error) {
-      console.log(error.message)
+      const message = error?.response?.data?.message
+      toast.error(message)
+
+      setEmail("")
+      setFirstName("")
+      setLastName("")
+      setPassword("")
     }
 
     setEmail("");
@@ -50,6 +63,7 @@ function SignupUser() {
 
   return (
     <div className='p-7 h-screen flex flex-col justify-around'>
+      <Toaster />
       <div className='h-full'>
         <img className='w-20 mb-8' src="src/assets/uber_logo.png" alt="" />
 

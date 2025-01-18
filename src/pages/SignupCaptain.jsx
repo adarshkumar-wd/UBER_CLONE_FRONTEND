@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { CaptainDataContext } from '../context/captainContext';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
+import toast, { Toaster } from 'react-hot-toast';
 
 
 function SignupCaptain() {
@@ -58,13 +59,24 @@ function SignupCaptain() {
       setVechileType("");
 
     } catch (error) {
-      console.log(error);
+      const message = error?.response?.data?.message
+      toast.error(message)
+
+      setEmail("");
+      setPassword("");
+      setFirstName("");
+      setLastName("");
+      setVechileColor("");
+      setVechileNumber("");
+      setVechileCapacity("");
+      setVechileType("");
 
     }
   }
 
   return (
     <div className='p-7 h-screen flex flex-col justify-around'>
+      <Toaster />
       <div className='h-full'>
         <img className='w-10 mb-8' src="src/assets/captain_logo.png" alt="" />
 

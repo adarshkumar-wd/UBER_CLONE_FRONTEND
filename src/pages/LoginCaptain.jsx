@@ -1,27 +1,55 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { CaptainDataContext } from '../context/captainContext.jsx';
+import { useContext } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 
 function LoginCaptain() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [captainData, setCaptainData] = useState({});
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const navigate = useNavigate();
+  const {captain , setCaptain} = useContext(CaptainDataContext);
+  
+  // useEffect(() => {
+  //   console.log("captain : " , captain)
+  // } , [captain])
 
-    setCaptainData({
-      email: email,
-      password: password
-    })
+  const submitHandler = async (e) => {
+    try {
+      e.preventDefault();
+  
+      const captainData = ({
+        email: email,
+        password: password
+      })
+  
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/captain-login` , captainData , {withCredentials:true});
+  
+      if(response.status === 200){
+        const data = response.data.data;
+        setCaptain(data.captainData)
+        navigate("/captain-home")
+      }
+  
+      setEmail("")
+      setPassword("")
 
-    setEmail("")
-    setPassword("")
+    } catch (error) {
+      const message = error?.response?.data?.message
+      toast.error(message)
+      setEmail("")
+      setPassword("")
+    }
   }
 
   return (
     <div className='p-7 h-screen flex flex-col justify-around'>
+      <Toaster />
       <div className='h-full'>
         <img className='w-16 mb-8' src="src/assets/captain_logo.png" alt="" />
 
