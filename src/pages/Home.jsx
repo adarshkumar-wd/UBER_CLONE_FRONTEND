@@ -5,6 +5,9 @@ import gsap from "gsap";
 import "remixicon/fonts/remixicon.css";
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import VechilePanel from "../components/VechilePanel";
+import ConfirmRide from "../components/ConfirmRide";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitingForDriver from "../components/WaitingForDriver";
 
 function Home() {
   const [pickup, setPickup] = useState("");
@@ -13,6 +16,12 @@ function Home() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [vechilePanel, setVechilePanel] = useState(false);
   const vechilePanelRef = useRef(null);
+  const [confirmRidePanel, setConfirmRidePanel] = useState(false)
+  const confirmRidePanelRef = useRef(null)
+  const [vechileFound, setVechileFound] = useState(false)
+  const vechileFoundRef = useRef(null)
+  const waitingForDriverRef = useRef(null)
+  const [waitingForDriver, setWaitingForDriver] = useState(false)
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -42,6 +51,44 @@ function Home() {
     }
   }, [vechilePanel]);
 
+  useGSAP(() => {
+    if (confirmRidePanel) {
+      gsap.to(confirmRidePanelRef.current, {
+        transform: "translateY(0)",
+      });
+    } else {
+      gsap.to(confirmRidePanelRef.current, {
+        transform: "translateY(100%)",
+      });
+    }
+  }, [confirmRidePanel]);
+
+  useGSAP(() => {
+    if (vechileFound) {
+      gsap.to(vechileFoundRef.current, {
+        transform: "translateY(0)",
+      });
+    } else {
+      gsap.to(vechileFoundRef.current, {
+        transform: "translateY(100%)",
+      });
+    }
+  }, [vechileFound]);
+
+  useGSAP(() => {
+    if (waitingForDriver) {
+      gsap.to(waitingForDriverRef.current, {
+        transform: "translateY(0)",
+      });
+    } else {
+      gsap.to(waitingForDriverRef.current, {
+        transform: "translateY(100%)",
+      });
+    }
+  }, [waitingForDriver]);
+
+
+
   return (
     <div className="h-screen w-full relative overflow-hidden">
       <div className="absolute top-5 left-5">
@@ -66,7 +113,7 @@ function Home() {
             }`}
             onClick={() => setPanelOpen(!panelOpen)}
           >
-            <i class="ri-arrow-down-s-line"></i>
+            <i className="ri-arrow-down-s-line"></i>
           </h2>
 
           <h2 className="mb-3 font-semibold text-2xl tracking-tight">
@@ -98,7 +145,7 @@ function Home() {
 
         <div ref={panelRef} className="w-full bg-white">
           <LocationSearchPanel
-            vechilePanel={vechilePanel}
+            setPanelOpen={setPanelOpen}
             setVechilePanel={setVechilePanel}
           />
         </div>
@@ -110,9 +157,38 @@ function Home() {
         ref={vechilePanelRef}
         className="fixed z-10 bottom-0 h-[70vh] w-full p-5 bg-white translate-y-full"
       >
-        <VechilePanel setVechilePanel={setVechilePanel} />
+        <VechilePanel setConfirmRidePanel={setConfirmRidePanel} setVechilePanel={setVechilePanel} />
       </div>
-      
+
+      {/* CONFIRM RIDE PANEL  */}
+
+      <div
+        ref={confirmRidePanelRef}
+        className="fixed z-10 bottom-0 h-[70vh] w-full p-5 bg-white translate-y-full"
+      >
+        <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVechileFound={setVechileFound} setVechilePanel={setVechilePanel} />
+      </div>
+
+      {/* LOOKING FOR DRIVER PANEL  */}
+
+      <div
+        ref={vechileFoundRef}
+        className="fixed z-10 bottom-0 h-[70vh] w-full p-5 bg-white translate-y-full"
+      >
+        <LookingForDriver setVechileFound={setVechileFound}/>
+      </div>
+
+      {/* WAITING FOR DRIVERS  */}
+
+      <div
+      ref={waitingForDriverRef}
+        className="fixed z-10 bottom-0 h-[60vh] w-full p-5 bg-white "
+      >
+        <WaitingForDriver setWaitingForDriver={setWaitingForDriver}/>
+      </div>
+
+
+
     </div>
   );
 }
