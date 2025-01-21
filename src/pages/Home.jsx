@@ -182,7 +182,7 @@ function Home() {
 
       <div
       ref={waitingForDriverRef}
-        className="fixed z-10 bottom-0 h-[60vh] w-full p-5 bg-white "
+        className="fixed z-10 bottom-0 h-[60vh] w-full p-5 bg-white"
       >
         <WaitingForDriver setWaitingForDriver={setWaitingForDriver}/>
       </div>
