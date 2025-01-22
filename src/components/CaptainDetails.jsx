@@ -1,7 +1,41 @@
-import React from "react";
+import React, { useRef , useState } from "react";
 import RidePop from "./RidePop";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import ConfirmRidePopUp from "./ConfirmRidePopUp";
 
 function CaptainDetails() {
+
+  const ridePopUpRef = useRef(null)
+  const [ridePopUpOpen, setRidePopUpOpen] = useState(true)
+  const [confirmRidePopUpOpen, setConfirmRidePopUpOpen] = useState(false)
+  const confirmRideRef = useRef(null)
+
+  useGSAP(() => {
+    if (ridePopUpOpen) {
+      gsap.to(ridePopUpRef.current, {
+        height: "70vh",
+      });
+    } else {
+      gsap.to(ridePopUpRef.current, {
+        height: "0",
+      });
+    }
+  }, [ridePopUpOpen]);
+
+  useGSAP(() => {
+    if (confirmRidePopUpOpen) {
+      gsap.to(confirmRideRef.current, {
+        height: "100vh",
+      });
+    } else {
+      gsap.to(confirmRideRef.current, {
+        height: "0",
+      });
+    }
+  }, [confirmRidePopUpOpen]);
+
+
   return (
     <div className="w-full">
       <div className="w-full flex items-center justify-between">
@@ -29,7 +63,7 @@ function CaptainDetails() {
 
       <div className="flex w-full items-center justify-between bg-yellow-300 rounded-lg py-4 px-5 mt-6">
         <div className="flex items-center flex-col justify-center">
-          <i class="text-2xl font-medium text-yellow-700 ri-time-line"></i>
+          <i className="text-2xl font-medium text-yellow-700 ri-time-line"></i>
           <h3 className="font-bold">10.2</h3>
           <p className="text-xs text-yellow-700 font-semibold">Hours Online</p>
         </div>
@@ -49,9 +83,14 @@ function CaptainDetails() {
         </div>
       </div>
 
-      <div className="fixed z-10 bottom-0 left-0  w-full p-5 bg-white">
-        <RidePop />
+      <div ref={ridePopUpRef} className="fixed z-10 bottom-0 left-0 w-full bg-white">
+        <RidePop setRidePopUpOpen={setRidePopUpOpen} setConfirmRidePopUpOpen={setConfirmRidePopUpOpen}/>
       </div>
+
+      <div ref={confirmRideRef} className="fixed z-20 h-screen bottom-0 left-0 w-full bg-white">
+        <ConfirmRidePopUp setRidePopUpOpen={setRidePopUpOpen} setConfirmRidePopUpOpen={setConfirmRidePopUpOpen} />
+      </div>
+
     </div>
   );
 }

@@ -1,19 +1,21 @@
 import React from 'react'
 
-function RidePop() {
+function RidePop(props) {
   return (
-    <div className=''>
-        <div className="flex w-full justify-between items-center px-3">
+    <div className='pt-4'>
+        <div className="flex w-full justify-between px-3">
             <h2 className="font-bold text-2xl tracking-tight">
               New Ride Availale.
             </h2>
-            <div className="text-2xl font-bold"><i className="ri-arrow-down-s-line"></i></div>
+            <div onClick={() => {
+              props.setRidePopUpOpen(false)
+            }} className="text-2xl font-bold"><i className="ri-arrow-down-s-line"></i></div>
 
          </div>
          
-         <div className='w-full gap-1 mt-3 flex flex-col items-center justify-center py-4'>
+         <div className='w-full gap-1 mt-3 flex flex-col items-center px-4 justify-center py-4'>
 
-          <div className='w-full px-2 flex items-center justify-between'>
+          <div className='w-full p-2 rounded-lg bg-yellow-300 px-2 flex items-center justify-between'>
 
             <div className='w-[60%] flex items-center justify-around'>
               <div className='w-12 rounded-full overflow-hidden'>
@@ -53,8 +55,13 @@ function RidePop() {
             </div>
 
             <div className='w-full mt-7 flex gap-2'>
-                <button className='w-full bg-green-400 text-white font-semibold p-1 rounded-lg'>Confirm</button>
-                <button className='w-full bg-gray-400 text-white font-semibold p-1 rounded-lg'>Ignore</button>
+                <button onClick={() => {
+                  props.setConfirmRidePopUpOpen(true)
+                }} className='w-full bg-green-400 text-white font-semibold p-1 rounded-lg'>Accept</button>
+
+                <button onClick={() => {
+                  props.setRidePopUpOpen(false)
+                }} className='w-full bg-gray-400 text-white font-semibold p-1 rounded-lg'>Ignore</button>
             </div>
          </div>
 
