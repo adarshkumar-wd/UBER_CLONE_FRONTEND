@@ -21,7 +21,7 @@ function Home() {
   const [vechileFound, setVechileFound] = useState(false)
   const vechileFoundRef = useRef(null)
   const waitingForDriverRef = useRef(null)
-  const [waitingForDriver, setWaitingForDriver] = useState(true)
+  const [waitingForDriver, setWaitingForDriver] = useState(false)
 
   const submitHandler = (e) => {
     e.preventDefault();
